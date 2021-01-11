@@ -1,0 +1,25 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Patron
+
+<h4>Edit a patron</h4>
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.PatronId)
+    @* @Html.HiddenFor(model => model.StartDate) *@
+
+    @Html.LabelFor(model => model.PatronName)
+    @Html.EditorFor(model => model.PatronName)
+
+    @* @Html.DisplayNameFor(model => model.StartDate) 
+    @Html.EditorFor(model => model.StartDate) *@
+    
+    @* @Html.LabelFor(model => model.StartDate)
+    @Html.EditorFor(model => model.StartDate) *@
+  
+
+    <input type="submit" value="Edit" />
+}
+<p>@Html.ActionLink("Show all patrons", "Index")</p>

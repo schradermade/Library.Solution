@@ -1,0 +1,19 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Book  //this is where we get the 'model' which represents Child class/constructor.
+
+<h4>Add a new Book</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(model => model.BookName)
+    @Html.TextBoxFor(model => model.BookName)
+
+    @Html.Label("Select Patron")
+    @Html.DropDownList("PatronId") //this is where we use the viewbag.
+
+    <input type="submit" value="Add new book" class="btn btn-default" />
+}
+<p>@Html.ActionLink("Show all books", "Index")</p>

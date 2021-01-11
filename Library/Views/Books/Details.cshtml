@@ -1,0 +1,41 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Book
+
+<h2>Book Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.BookName): @Html.DisplayFor(model => model.BookName)</h3>
+
+@if(Model.JoinEntries.Count == 0)
+{
+  <p>This Book does not belong to any Patrons</p>
+}
+else
+{
+  <h4>Patrons the book belongs to:</h4>
+  @* <ul>
+    @foreach(var join in Model.Parents)
+    {
+      <li>@join.Parent.ParentName</li>
+    }
+  </ul> *@
+}
+
+  <ul>
+  @foreach(var join in Model.JoinEntries)
+  {
+    <li>@join.Patron.PatronName</li>
+    @using (Html.BeginForm("DeletePatron", "Books"))
+    {
+      @Html.Hidden("joinId", @join.BookPatronId)
+      <input type="submit" value="Delete"/>
+    }
+  }
+  </ul>
+  
+<p>@Html.ActionLink("Add a Patron", "AddPatron", new { id = Model.BookId })</p>
+<p>@Html.ActionLink("Back to list", "Index")</p>
+<p>@Html.ActionLink("Edit Book", "Edit", new { id = Model.BookId })</p>
+<p>@Html.ActionLink("Delete Book", "Delete", new { id = Model.BookId })</p>

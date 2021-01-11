@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Library.Models.Book
+
+<h2>Add this book to a Patron.</h2>
+
+<h4>Add this book to a Patron: @Html.DisplayFor(model => model.BookName)</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.BookId)
+
+    @Html.Label("Select a Patron")
+    @Html.DropDownList("PatronId")
+
+    <input type="submit" value="Save" />
+}
+
+<p>@Html.ActionLink("Back to list", "Index")</p>
