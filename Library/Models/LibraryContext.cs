@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Library.Models
 {
-  public class LibraryContext : DbContext
+  public class LibraryContext : IdentityDbContext<ApplicationUser>
   {
     public virtual DbSet<Author> Authors { get; set; } //DBSets are new tables being created. 
     public DbSet<Book> Books { get; set; }
