@@ -10,11 +10,11 @@
 
 @if(Model.JoinEntries.Count == 0)
 {
-  <p>This Book does not belong to any Patrons</p>
+  <p>This Book does not belong to any Authors</p>
 }
 else
 {
-  <h4>Patrons the book belongs to:</h4>
+  <h4>Authors the book belongs to:</h4>
   @* <ul>
     @foreach(var join in Model.Parents)
     {
@@ -26,16 +26,16 @@ else
   <ul>
   @foreach(var join in Model.JoinEntries)
   {
-    <li>@join.Patron.PatronName</li>
-    @using (Html.BeginForm("DeletePatron", "Books"))
+    <li>@join.Author.AuthorName</li>
+    @using (Html.BeginForm("DeleteAuthor", "Books"))
     {
-      @Html.Hidden("joinId", @join.BookPatronId)
+      @Html.Hidden("joinId", @join.BookAuthorId)
       <input type="submit" value="Delete"/>
     }
   }
   </ul>
   
-<p>@Html.ActionLink("Add a Patron", "AddPatron", new { id = Model.BookId })</p>
+<p>@Html.ActionLink("Add a Author", "AddAuthor", new { id = Model.BookId })</p>
 <p>@Html.ActionLink("Back to list", "Index")</p>
 <p>@Html.ActionLink("Edit Book", "Edit", new { id = Model.BookId })</p>
 <p>@Html.ActionLink("Delete Book", "Delete", new { id = Model.BookId })</p>

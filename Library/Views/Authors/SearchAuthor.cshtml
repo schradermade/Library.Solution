@@ -1,0 +1,30 @@
+@{
+  Layout = "_Layout";
+}
+
+@* @model Library.Models.Author; *@
+
+
+
+<h1>Books by this Author</h1>
+@* @Console.WriteLine(Model.JoinEntries) *@
+
+@if(@Model.JoinEntries.Count == 0)
+{
+  <p>There are no books by this author.</p>
+}
+else
+{
+  <h4>This author has the following books:</h4>
+  <ul>
+  @foreach(var join in Model.JoinEntries) //Model represents the Author. join represents rows on the BookAuthor (book and author associations)
+  {
+    <li>@join.Book.BookName</li>
+  }
+  </ul>
+}
+
+<p>@Html.ActionLink("Add new Author", "Create")</p>
+
+<p>@Html.ActionLink("Home", "Index", "Home")</p>
+

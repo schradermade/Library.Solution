@@ -24,22 +24,31 @@ namespace Library.Controllers
       return View(_db.Books.ToList());
     }
 
+    public ActionResult SearchBook(string title)
+    {
+      var thisBook = _db.Books //return Book name and id 
+          .Include(book => book.JoinEntries) //find books(JoinEntries) related to the author
+          .ThenInclude(join => join.Author) //With all join entries add the related book 
+          .FirstOrDefault(book => book.BookName == title); // find the Author that matches the ID
+      return View(thisBook);
+    }
+
     public ActionResult Create()
     {
-      ViewBag.PatronId = new SelectList(_db.Patrons, "PatronId", "PatronName");
+      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");
       return View();
     }
 
     [HttpPost]
-    public ActionResult Create(Book book, int PatronId)
+    public ActionResult Create(Book book, int AuthorId)
     {
       // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       // var currentUser = await _userManager.FindByIdAsync(userId);
       // item.User = currentUser;
       _db.Books.Add(book);
-      if (PatronId != 0)
+      if (AuthorId != 0)
       {
-        _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId });
+        _db.BookAuthor.Add(new BookAuthor() { AuthorId = AuthorId, BookId = book.BookId });
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
@@ -49,7 +58,7 @@ namespace Library.Controllers
     {
       var thisBook = _db.Books
           .Include(book => book.JoinEntries)
-          .ThenInclude(join => join.Patron)
+          .ThenInclude(join => join.Author)
           .FirstOrDefault(book => book.BookId == id);
       return View(thisBook);
     }
@@ -57,35 +66,35 @@ namespace Library.Controllers
     public ActionResult Edit(int id)
     {
       var thisBook = _db.Books.FirstOrDefault(book => book.BookId == id);
-      ViewBag.PatronId = new SelectList(_db.Patrons, "PatronId", "PatronName"); // ViewBag only transfers data from controller to view
+      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName"); // ViewBag only transfers data from controller to view
       return View(thisBook);
     }
     
     [HttpPost]
-    public ActionResult Edit(Book book, int PatronId)
+    public ActionResult Edit(Book book, int AuthorId)
     {
-      if (PatronId != 0)
+      if (AuthorId != 0)
       {
-        _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId });
+        _db.BookAuthor.Add(new BookAuthor() { AuthorId = AuthorId, BookId = book.BookId });
       }
       _db.Entry(book).State=EntityState.Modified;
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    public ActionResult AddPatron(int id)
+    public ActionResult AddAuthor(int id)
     {
       var thisBook = _db.Books.FirstOrDefault(books => books.BookId == id);
-      ViewBag.PatronId = new SelectList(_db.Patrons, "PatronId", "PatronName");
+      ViewBag.AuthorId = new SelectList(_db.Authors, "AuthorId", "AuthorName");
       return View(thisBook);
     }
     
     [HttpPost]
-    public ActionResult AddPatron(Book book, int PatronId)
+    public ActionResult AddAuthor(Book book, int AuthorId)
     {
-      if(PatronId != 0)
+      if(AuthorId != 0)
       {
-        _db.BookPatron.Add(new BookPatron() { PatronId = PatronId, BookId = book.BookId});
+        _db.BookAuthor.Add(new BookAuthor() { AuthorId = AuthorId, BookId = book.BookId});
       }
         _db.SaveChanges();
         return RedirectToAction("Index");
@@ -107,10 +116,10 @@ namespace Library.Controllers
     }
   
     [HttpPost]
-    public ActionResult DeletePatron(int joinId)
+    public ActionResult DeleteAuthor(int joinId)
     {
-      var joinEntry = _db.BookPatron.FirstOrDefault(entry => entry.BookPatronId == joinId);
-      _db.BookPatron.Remove(joinEntry);
+      var joinEntry = _db.BookAuthor.FirstOrDefault(entry => entry.BookAuthorId == joinId);
+      _db.BookAuthor.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

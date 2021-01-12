@@ -1,14 +1,15 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 //Identifying the Database Schema
 
 namespace Library.Models
 {
   public class LibraryContext : DbContext
   {
-    public virtual DbSet<Patron> Patrons { get; set; } //DBSets are new tables being created. 
+    public virtual DbSet<Author> Authors { get; set; } //DBSets are new tables being created. 
     public DbSet<Book> Books { get; set; }
 
-    public DbSet<BookPatron> BookPatron { get; set; }
+    public DbSet<BookAuthor> BookAuthor { get; set; }
 
     public LibraryContext(DbContextOptions options) : base(options) { } 
   }

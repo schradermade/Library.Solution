@@ -11,8 +11,8 @@
     @Html.LabelFor(model => model.BookName)
     @Html.TextBoxFor(model => model.BookName)
 
-    @Html.Label("Select Patron")
-    @Html.DropDownList("PatronId") //this is where we use the viewbag.
+    @Html.Label("Select Author")
+    @Html.DropDownList("AuthorId") //this is where we use the viewbag.
 
     <input type="submit" value="Add new book" class="btn btn-default" />
 }

@@ -2,6 +2,26 @@
   Layout = "_Layout";
 }
 
+@* //not needed for existing functionality *@
+@* @using Library.Models *@
+
 <h1>Welcome To The Library</h1>
+
+  @using (Html.BeginForm("SearchAuthor", "Authors"))
+  {
+    @Html.Label("Search by Author:") 
+    <br>
+    @Html.TextBox("name")<input type="submit" value="Search">
+  }
+  @using (Html.BeginForm("SearchBook", "Books"))
+  {
+    <br>
+    @Html.Label("Search by Book:")
+    <br>
+    @Html.TextBox("title")<input type="submit" value="Search">
+  }
+
+<br>
+<hr />
 <p>@Html.ActionLink("See all Books", "Index", "Books")</p>
-<p>@Html.ActionLink("See all Patrons", "Index", "Patrons")</p>
+<p>@Html.ActionLink("See all Authors", "Index", "Authors")</p>

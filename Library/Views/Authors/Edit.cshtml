@@ -2,16 +2,16 @@
   Layout = "_Layout";
 }
 
-@model Library.Models.Patron
+@model Library.Models.Author
 
-<h4>Edit a patron</h4>
+<h4>Edit a Author</h4>
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.PatronId)
+    @Html.HiddenFor(model => model.AuthorId)
     @* @Html.HiddenFor(model => model.StartDate) *@
 
-    @Html.LabelFor(model => model.PatronName)
-    @Html.EditorFor(model => model.PatronName)
+    @Html.LabelFor(model => model.AuthorName)
+    @Html.EditorFor(model => model.AuthorName)
 
     @* @Html.DisplayNameFor(model => model.StartDate) 
     @Html.EditorFor(model => model.StartDate) *@
@@ -22,4 +22,4 @@
 
     <input type="submit" value="Edit" />
 }
-<p>@Html.ActionLink("Show all patrons", "Index")</p>
+<p>@Html.ActionLink("Show all Authors", "Index")</p>

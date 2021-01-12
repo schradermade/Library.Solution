@@ -2,15 +2,15 @@
   Layout = "_Layout";
 }
 
-@model Library.Models.Patron
+@model Library.Models.Author
 
-<h2>Add a Book to this Patron.</h2>
+<h2>Add a Book to this Author.</h2>
 
-<h4>Add a Book to this Patron: @Html.DisplayFor(model => model.PatronName)</h4>
+<h4>Add a Book to this Author: @Html.DisplayFor(model => model.AuthorName)</h4>
 
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.PatronId)
+    @Html.HiddenFor(model => model.AuthorId)
 
     @Html.Label("Select a Book")
     @Html.DropDownList("BookId")
