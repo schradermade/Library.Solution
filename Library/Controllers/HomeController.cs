@@ -20,10 +20,13 @@ namespace Library.Controllers
     {
       var authorList = _db.Authors.ToList();
       var bookList = _db.Books.ToList();
-      Dictionary<string, object> myDic = new Dictionary<string, object> ();
-      myDic.Add("Author", authorList);
-      myDic.Add("Book", bookList);
-      return View(myDic);
+      Dictionary<string, object> myDictionary = new Dictionary<string, object> ();
+      myDictionary.Add("Author", authorList);
+      myDictionary.Add("Book", bookList);
+
+      ViewBag.manyBooks = _db.Books;
+      ViewBag.manyAuthors = _db.Authors;
+      return View(myDictionary);
     }
 
 

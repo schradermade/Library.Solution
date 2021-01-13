@@ -2,8 +2,9 @@
   Layout = "_Layout";
 }
 
-@* //not needed for existing functionality *@
 @using Library.Models
+
+
 
 
 <h1>Welcome To The Library</h1>
@@ -25,13 +26,17 @@
 <ul style="list-style-type: none;">
   @foreach (Book book in Model["Book"])
   {
-    <li>Book Name: @Html.ActionLink($"{book.BookName}", "Details", new { id = book.BookId })
+    <li>Book Name: @Html.ActionLink($"{book.BookName}", "Details", "Books", new { id = book.BookId })
         <br>
-        @* Book Id: @Html.DisplayFor(model => book.BookId) *@
     </li>
     <hr />
   }
 </ul>
+
+@foreach(Author author in ViewBag.manyAuthors)
+{
+      <li>Author Name: @Html.ActionLink($"{author.AuthorName}", "Details", "Authors", new { id = author.AuthorId })</li>
+}
 
 <br>
 <hr />
