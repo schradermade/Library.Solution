@@ -4,25 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Library.Controllers
 {
-  // [Authorize]
+  [Authorize]
   public class BooksController : Controller
   {
     private readonly LibraryContext _db;
-    // private readonly UserManager<ApplicationUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public BooksController(LibraryContext db)
+    public BooksController(UserManager<ApplicationUser> userManager, LibraryContext db)
     {
-      // _userManager = userManager;
+      _userManager = userManager;
       _db = db;
     }
 
-    public ActionResult Index()
+
+    public async Task<ActionResult> Index()
     {
-      return View(_db.Books.ToList());
+        var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var currentUser = await _userManager.FindByIdAsync(userId);
+        var userBooks = _db.Books.Where(entry => entry.User.Id == currentUser.Id).ToList();
+        return View(userBooks);
     }
+    
 
     public ActionResult SearchBook(string title)
     {
@@ -39,20 +48,20 @@ namespace Library.Controllers
       return View();
     }
 
-    [HttpPost]
-    public ActionResult Create(Book book, int AuthorId)
+[HttpPost]
+public async Task<ActionResult> Create(Book book, int AuthorId)
+{
+    var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var currentUser = await _userManager.FindByIdAsync(userId);
+    book.User = currentUser;
+    _db.Books.Add(book);
+    if (AuthorId != 0)
     {
-      // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      // var currentUser = await _userManager.FindByIdAsync(userId);
-      // item.User = currentUser;
-      _db.Books.Add(book);
-      if (AuthorId != 0)
-      {
         _db.BookAuthor.Add(new BookAuthor() { AuthorId = AuthorId, BookId = book.BookId });
-      }
-      _db.SaveChanges();
-      return RedirectToAction("Index");
     }
+    _db.SaveChanges();
+    return RedirectToAction("Index");
+}
 
     public ActionResult Details(int id)
     {

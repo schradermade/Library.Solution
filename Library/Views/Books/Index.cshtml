@@ -3,19 +3,24 @@
 }
 
 @using Library.Models;
-@model List<Library.Models.Book>;
+@model IEnumerable<Library.Models.Book>
 
-<h1>Books</h1>
+<h1>Books for @User.Identity.Name</h1>
 
-@if (@Model.Count == 0)
+@if (Model.Any())
 {
-  <h3>No Books have been added yet!</h3>
+  <ul>
+    @foreach (Book book in Model)
+    {
+      <li>@Html.ActionLink($"{book.BookName}", "Details", new { id = book.BookId })</li>
+    }
+  </ul>
 } 
-
-@foreach (Book Book in Model)
+else
 {
-  <li>@Html.ActionLink($"{Book.BookName}", "Details", new { id = Book.BookId })</li>
+  <h3>No books have been added yet!</h3>
 }
 
-<p>@Html.ActionLink("Add new Book", "Create")</p>
+<p>@Html.ActionLink("Add new book", "Create")</p>
+
 <p>@Html.ActionLink("Home", "Index", "Home")</p>
