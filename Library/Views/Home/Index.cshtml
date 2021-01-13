@@ -3,7 +3,8 @@
 }
 
 @* //not needed for existing functionality *@
-@* @using Library.Models *@
+@using Library.Models
+
 
 <h1>Welcome To The Library</h1>
 
@@ -20,6 +21,17 @@
     <br>
     @Html.TextBox("title")<input type="submit" value="Search">
   }
+
+<ul style="list-style-type: none;">
+  @foreach (Book book in Model["Book"])
+  {
+    <li>Book Name: @Html.ActionLink($"{book.BookName}", "Details", new { id = book.BookId })
+        <br>
+        @* Book Id: @Html.DisplayFor(model => book.BookId) *@
+    </li>
+    <hr />
+  }
+</ul>
 
 <br>
 <hr />

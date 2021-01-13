@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 using Library.Models;
-// using System.Linq;
-// using Microsoft.EntityFrameworkCore;
-// using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Controllers
 {
@@ -18,17 +18,14 @@ namespace Library.Controllers
     [HttpGet("/")]
     public ActionResult Index()
     {
-      ViewBag.Authors = _db.Authors;
-      return View();
+      var authorList = _db.Authors.ToList();
+      var bookList = _db.Books.ToList();
+      Dictionary<string, object> myDic = new Dictionary<string, object> ();
+      myDic.Add("Author", authorList);
+      myDic.Add("Book", bookList);
+      return View(myDic);
     }
+
 
   }
 }
-
-
-// dictionary, list with both Author/Book
-
-//instantiating lists from database _db.author...
-// use model.Add...books
-// model.Add(authors)
-//use one model statement
